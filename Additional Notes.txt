@@ -1,0 +1,49 @@
+JWT - JSON Web Token
+	- A standard that defines a compact && self-contained way for securely transmitting information between parties as a JSON
+	  object
+		- JSON(JavaScript Object Notation) is a format for storing/transporting data. Often used when data is sent from a 
+		  server to a web page, and is self-describing.
+		  EX: "employees": [
+			{"firstName":"John", "lastName: "Doe"}
+			{"firstName":"Annie", "lastName: "Dee"}]
+							]
+	- information in JWT is trustworthy because it is digitally signed with the HMAC algorithm or a public/private key pair
+	  using RSA or ECDSA
+		- HMAC(Hash-based authentication code): Cryptographic hash function coupled with a secret key
+
+		- ECDSA/RSA: The world's most widely adopted asymmetric algorithms
+			-RSA: Gold standard of asymmetric encryption algorithm
+				- multiplies two very large random prime numbers to create a huge number (Prime factorization)
+				- It took a group of researchers 1,500 years of computing time to crack an RSA algorithm
+				- Well tested, studied and audited for reliability, and is easy to implement
+			- ECDSA(elliptic curve digital signature algorithm), or ECC(elliptic curve cryptography):
+				- The algorithm creates an elliptical curve and a function known as a trapdoor function
+				- Trapdoor function turns one value to another. It's easy to do one-way, but extremely difficult to 
+				- ECC 384-bit keys are strong enough to be used for NSA, FBI and government agencies
+				- RSA would need 7680-bit key to have same amount of security 
+
+
+
+
+EXTRA DEFINITIONS
+
+ Encryption: Process of scrambling human-readable data to ciphertext, and uses a key to decrypt the text
+
+ Hash function: function used to map data of arbitrary size to fixed-size values
+
+ Cryptographic Hash Functions: A one-way hash function
+	- Deterministic, meaning that same message results in same hash
+	- Quick computation of hash values for given messages
+	- one-way, meaning it should be infeasible to invert/reverse the computation
+	- No two messages with same hash values
+	- Even small changes to a message should change hash in a way that it looks unrelated to the original message
+
+ Symmetric vs Asymmetric encryption algorithms: 
+	- For symmetric, one key is used for encrypting and decrypting
+		- Does not scale well because key has to be shared securely
+		- It performs better, so it's used in conjunction with asymmetric algorithms
+		- Shorter keys, between 128-256 bits based on security equipment
+		- Used for transferring large chunks of data
+	- For Asymmetric, a pair of related keys(public/private) are used
+		- Key length is much longer. E.g Recommended RSA Key size is 2048 bits or higher
+		- Primarily used to authenticate/establish secure connection to a channel before transferring data

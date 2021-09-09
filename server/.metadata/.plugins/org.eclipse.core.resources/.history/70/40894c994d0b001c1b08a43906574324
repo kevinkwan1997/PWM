@@ -1,0 +1,5 @@
+package com.sekkurity.pwm.auth.copy;
+
+public class WebSecurityConfig {
+
+}

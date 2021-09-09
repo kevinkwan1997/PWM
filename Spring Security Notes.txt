@@ -1,0 +1,69 @@
+Spring Security Notes
+
+WebSecurityConfiguereAdapter provides HttpSecurity, which allows you to configure cors,
+csrf, session management, rules for protected resources and extend those configurations to other elements
+
+	- SOP (Same Origin Policy): Security measure used by all modern browsers
+		- Stops scripts/resources loaded from one origin from interacting 
+		  with another origin 
+		- EX: Malicious website opens while user is logged into facebook, 
+		      SOP stops the malicious website from making requests to facebook
+		- Does NOT restrict access to servers
+
+	- SOP restricts cross origin access, CORS circumvents that and allows frontend to make requests to the server
+	  because the client may be hosted on a different origin than your server.
+
+	- CORS (Cross-Origin Resource Sharing): HTTP-based header mechanism that tells browsers to give an application
+	  at one origin, access to a selected resource from a different origin
+		-  Origin: Made up of three parts, scheme(protocol i.e https://), host(domain i.e google.com), and port (i.e 8080)
+			- Two origins are equal if all three components are equal.
+		- CORS allows servers to send a header, which the client interprets to decide if it wants to serve the request
+			- Main header is Access-Control-Allow-Origin (EX. Access-Control-Allow-Origin: https://example.com)
+		- CORS has two types of requests: "Simple" and "preflight" 
+			- Simple: API Method is GET, POST, or HEAD && Content-Type header has one of these values: 
+			  application/x-www-form-urlencoded, multipart/form-data, or text/plain
+				- If API request is deemed simple, browser makes the call to the server, 
+				  server responds with CORS headers,
+			  	  browser then checks Access-Control-Allow-Origin header in response to proceed.
+			- Pre flight: API Call doesn't satisfy criteria for being a simple request (most common is
+			  application/json header)
+				- If your request is pre-flight, the browser will make a request before seding the request
+				- The request created before sending is the preflighted request, and it contains all the info
+				  on the actual request and will be made with a method called OPTIONS. 
+				- Server will reply to the preflight with all CORS headers for the actual API call, informing
+				  browser whether to make the call or not.
+
+		- EXTRA NOTES:
+			- If you're building a server for clients, make sure you allow all origins your clients will be making 
+			the requests from. (EX -> Computer opens game client, allow origin of game client to retrieve data)
+			- You can only send one origin, but you can store a list of origins and send that instead
+
+	- CSRF: Cross-site Request Forgery (aka Sea Surf, XSRF) is an attack where an attacker tricks the victim into clicking a 
+	  malicious link, then using the victim's browser to send requests that include the victim's cookies associated with the
+	  website. 
+		- Cookies are intrinsically vulnerable to CSRF attacks because they are sent with every request.
+
+
+UserDetailsService will load a user by username and returns a UserDetails object 
+used for authentication and validation
+
+UserDetails is used to build an authentication object 
+
+UsernamePasswordAuthenticationToken gets {username, password} from login request
+
+AuthenticationManager has a DaoAuthenticationProvider that validates UsernamePasswordAuthenticationToken, which returns a fully
+	populated Authentication object with granted authorities if successful.
+
+OncePerRequestFilter makes one execution per request to the API. 
+	Provides a doFilterInternal() that parses and validates JWT, loads User details, and checks authorization using 
+	UsernamePasswordAuthenticationToken
+
+AuthenticationEntryPoint will catch auth errors
+
+UserRepository and RoleRepository will communicate with the database, and will be imported into the controller
+
+Controller receives/handles requests after it's filtered by OncePerRequestFilter
+	- AuthController handles signup/login req
+	- PasswordController handles password 
+
+enum is a special class that represents a group of constants like final

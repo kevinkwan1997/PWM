@@ -1,0 +1,37 @@
+package com.sekkurity.pwm.models;
+
+import javax.persistence.*;
+
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Enumerated(EnumType.STRING) //Describes a specfic set of strings
+    @Column(length = 32)         //Length of column, like (varchar(32))
+    private ERole name;
+
+    public Role(){
+
+    }
+
+    public Role(ERole name){
+        this.name = name;
+    }
+//Auto-generated getters/setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public ERole getName() {
+        return name;
+    }
+
+    public void setName(ERole name) {
+        this.name = name;
+    }
+}
